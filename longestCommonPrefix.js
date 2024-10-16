@@ -1,33 +1,34 @@
-//Write a function to find the longest common prefix string amongst an array of strings.
+function longestCommonPrefix(strs) {
+  if (strs.length === 0) return ""; // Edge case: empty array
 
-//If there is no common prefix, return an empty string "".
-// Input: strs = ["flower","flow","flight"]
-// Output: "fl"
-// Example 2:
+  // Find the smallest string length
+  let limit = Math.min(...strs.map((str) => str.length));
 
-// Input: strs = ["dog","racecar","car"]
-// Output: ""
+  let result = [];
 
-strs = ["flower", "flow", "flight"];
-strs_length = [];
+  // Loop over each character index up to the limit (smallest string length)
+  for (let count = 0; count < limit; count++) {
+    // Get the character from the first string
+    let char = strs[0][count];
 
-//Pseudocode Solution
+    // Compare this character with the same index in other strings
+    for (let i = 1; i < strs.length; i++) {
+      if (strs[i][count] !== char) {
+        // Return the result as soon as a mismatch is found
+        return result.join("");
+      }
+    }
 
-//get length of all strings
-for (var i = 0; i < strs.length; i++) {
-  strs_length.push(strs[i].length);
+    // If all strings have the same character at this index, add it to the result
+    result.push(char);
+  }
+
+  // Return the full common prefix (if loop finishes without finding mismatches)
+  return result.join("");
 }
 
-//check for the smallest string length - dunno if this is necessary
-limit = Math.min(...strs_length);
+// Test case 1
+console.log(longestCommonPrefix(["flower", "flow", "flight"])); // Output: "fl"
 
-// console.log(limit);
-
-//here the loop for each strings will only stop at the smallest
-for (var i = 0; i < strs.length; i++) {
-  console.log(i);
-  //compare strs[1][0] == strs[2][0] == strs[3][0]
-  //create an array of all elements but with the smallest length now [flow, flow, flig]
-  //compare the last items if they don't match, pop and compare the next last element, pop and compare the last elements
-}
-//the elements of each string must be at the same index concurrently
+// Test case 2
+console.log(longestCommonPrefix(["dog", "racecar", "car"])); // Output: ""
